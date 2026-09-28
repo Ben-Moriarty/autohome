@@ -1,0 +1,12 @@
+- name: Setting Up Proxmox Host
+  hosts: proxmox
+  remote_user: root
+
+  tasks:
+    - name: Create First User
+      ansible.builtin.user:
+        name: noche
+        groups: sudo
+        shell: /bin/bash
+        password: "{{ admin_password_hash }}"
+        create_home: yes
