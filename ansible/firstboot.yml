@@ -1,4 +1,4 @@
-- name: Setting Up Proxmox Host
+- name: Setting up Proxmox host
   hosts: proxmox
   remote_user: root
 
