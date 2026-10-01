@@ -1,1 +1,8 @@
 - name: Setting up PXE server for autohome deploy
+  hosts: deb_vm
+  tasks:
+    - name: install packages
+      ansible.builtin.package:
+        name: 
+          - ipxe
+        state: latest
