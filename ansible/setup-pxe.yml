@@ -13,3 +13,9 @@
       ansible.builtin.git:
         repo: 'http://192.168.0.63:3000/noche/autohome.git'
         dest: "/home/{{ ansible_user }}/proxmox-pxe-boot/"
+
+    - name: copy ipxe
+      ansible.builtin.copy:
+        src: '/usr/lib/ipxe/ipxe-amd64.efi'
+        dest: "/home/{{ ansible_user }}/proxmox-pxe-boot/tftp/"
+        remote_src: true
