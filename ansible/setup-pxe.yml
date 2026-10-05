@@ -1,8 +1,14 @@
 - name: Setting up PXE server for autohome deploy
   hosts: deb_vm
+  become: true
   tasks:
     - name: install packages
       ansible.builtin.package:
         name: 
           - ipxe
         state: latest
+    
+    - name: pull repo
+      ansible.builtin.git:
+        repo: 'http://192.168.0.76:3000/noche/autohome.git'
+        dest: "/home/{{ ansible_user }}/"
