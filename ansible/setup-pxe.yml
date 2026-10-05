@@ -9,7 +9,7 @@
           - git
         state: latest
     
-    - name: pull repo
+    - name: clone repo
       ansible.builtin.git:
-        repo: 'http://192.168.0.76:3000/noche/autohome.git'
-        dest: "/home/{{ ansible_user }}/"
+        repo: 'http://192.168.0.63:3000/noche/autohome.git'
+        dest: "/home/{{ ansible_user }}/proxmox-pxe-boot/"
