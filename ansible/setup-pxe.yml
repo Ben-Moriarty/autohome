@@ -2,13 +2,31 @@
   hosts: deb_vm
   become: true
   tasks:
+    - name: download proxmox keyring
+      ansible.builtin.get_url:
+        url: https://enterprise.proxmox.com/debian/proxmox-archive-keyring-trixie.gpg
+        dest: /usr/share/keyrings/proxmox-archive-keyring.gpg
+
+    - name: setup proxmox apt repo
+      ansible.builtin.copy:
+        dest: /etc/apt/sources.list.d/proxmox.sources
+        content: |
+          Types: deb
+          URIs: http://download.proxmox.com/debian/pve
+          Suites: trixie
+          Components: pve-no-subscription
+          Signed-By: /usr/share/keyrings/proxmox-archive-keyring.gpg
+        remote_src: true
+
     - name: install packages
-      ansible.builtin.package:
-        name: 
+      ansible.builtin.apt:
+        update_cache: yes
+        name:
+          - proxmox-auto-install-assistant 
           - ipxe
           - git
         state: latest
-    
+
     - name: clone repo
       ansible.builtin.git:
         repo: 'http://192.168.0.63:3000/noche/autohome.git'
