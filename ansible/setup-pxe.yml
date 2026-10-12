@@ -25,12 +25,35 @@
           - proxmox-auto-install-assistant 
           - ipxe
           - git
+          - caddy
         state: latest
 
     - name: clone repo
       ansible.builtin.git:
         repo: 'http://192.168.0.63:3000/noche/autohome.git'
         dest: "/home/{{ ansible_user }}/proxmox-pxe-boot/"
+
+    - name: setup caddy
+      ansible.builtin.copy:
+        dest: /etc/caddy/Caddyfile
+        content: |
+          :8000 {
+            log {
+              output file /var/log/caddy/caddy.log
+            }
+            root * "/home/{{ ansible_user }}/proxmox-pxe-boot/http/"
+            file_server browse
+          }
+        remote_src: true
+    
+    - name: flush handlers
+      ansible.builtin.meta: flush_handlers
+    
+    - name: download iso
+      ansible.builtin.get_url:
+        url: https://enterprise.proxmox.com/iso/proxmox-ve_9.2-1.iso
+        dest: "/home/{{ ansible_user }}/proxmox-pxe-boot/"
+        checksum: sha256:4e88fe416df9b527624a175f24c9aa07c714d3332afb1ee3dbf3879573ef2c6c
 
     - name: copy ipxe
       ansible.builtin.copy:
