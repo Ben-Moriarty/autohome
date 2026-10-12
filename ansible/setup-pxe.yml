@@ -45,6 +45,7 @@
             file_server browse
           }
         remote_src: true
+      notify: reload caddy
     
     - name: flush handlers
       ansible.builtin.meta: flush_handlers
@@ -52,7 +53,7 @@
     - name: download iso
       ansible.builtin.get_url:
         url: https://enterprise.proxmox.com/iso/proxmox-ve_9.2-1.iso
-        dest: "/home/{{ ansible_user }}/proxmox-pxe-boot/"
+        dest: "/home/{{ ansible_user }}/proxmox-pxe-boot/proxmox-ve_9.2-1.iso"
         checksum: sha256:4e88fe416df9b527624a175f24c9aa07c714d3332afb1ee3dbf3879573ef2c6c
 
     - name: copy ipxe
@@ -60,3 +61,9 @@
         src: '/usr/lib/ipxe/ipxe-amd64.efi'
         dest: "/home/{{ ansible_user }}/proxmox-pxe-boot/tftp/"
         remote_src: true
+
+  handlers:
+    - name: reload caddy
+      ansible.builtin.service:
+        name: caddy
+        state: reloaded
