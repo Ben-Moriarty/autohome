@@ -88,6 +88,30 @@
           - "/home/{{ ansible_user }}/proxmox-pxe-boot/http/"
         creates: "/home/{{ ansible_user }}/proxmox-pxe-boot/http/initrd.img"
 
+    - name: create answerfile
+      ansible.builtin.copy:
+        dest: "/home/{{ ansible_user }}/proxmox-pxe-boot/pxe/http"
+        content: |
+          [global]
+          keyboard = "en-us"
+          country = "us"
+          fqdn = "nocheprox.nochemox"
+          mailto = "mail@no.invalid"
+          timezone = "America/Phoenix"
+          root-password = "Siddhartha314!"
+
+          [network]
+          source = "from-dhcp"
+
+          [network.interface-name-pinning]
+          enabled = true
+
+          [disk-setup]
+          filesystem = "zfs"
+          zfs.raid = "raid0"
+          disk-list = ["sda"]
+        remote_src: true
+
     - name: copy ipxe
       ansible.builtin.copy:
         src: '/usr/lib/ipxe/ipxe-amd64.efi'
