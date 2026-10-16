@@ -74,6 +74,20 @@
         url: https://enterprise.proxmox.com/iso/proxmox-ve_9.2-1.iso
         dest: "/home/{{ ansible_user }}/proxmox-pxe-boot/proxmox-ve_9.2-1.iso"
         checksum: sha256:4e88fe416df9b527624a175f24c9aa07c714d3332afb1ee3dbf3879573ef2c6c
+    
+    - name: prep iso
+      ansible.builtin.command:
+        argv: 
+          - proxmox-auto-install-assistant 
+          - prepare-iso 
+          - "/home/{{ ansible_user }}/proxmox-pxe-boot/proxmox-ve_9.2-1.iso" 
+          - --fetch-from http 
+          - --url 
+          - "http://192.168.0.18/answer.toml" 
+          - --pxe 
+          - --output 
+          - "/home/{{ ansible_user }}/proxmox-pxe-boot/http/"
+        creates: "/home/{{ ansible_user }}/proxmox-pxe-boot/http/initrd.img"
 
     - name: copy ipxe
       ansible.builtin.copy:
