@@ -26,6 +26,7 @@
           - ipxe
           - git
           - caddy
+          - dnsmasq
         state: latest
 
     - name: clone repo
@@ -47,6 +48,24 @@
         remote_src: true
       notify: reload caddy
     
+    - name: setup dnsmasq
+      ansible.builtin.copy:
+        dest: /etc/dnsmasq.conf
+        content: |
+          port=0
+          dhcp-range=192.168.0.0,proxy
+          pxe-service=tag:!ipxe,x86-64_EFI,"EFI network boot",ipxe.efi
+          pxe-service=tag:ipxe,x86-64_EFI,"iPXE",proxmox.ipxe
+          dhcp-userclass=set:ipxe,iPXE
+          enable-tftp
+          tftp-root="/home/{{ ansible_user }}/proxmox-pxe-boot/pxe/tftp"
+          log-queries
+          log-dhcp
+          log-facility=/var/log/dnsmasq.log
+        remote_src: true
+      notify: reload dnsmasq
+
+    
     - name: flush handlers
       ansible.builtin.meta: flush_handlers
     
@@ -59,11 +78,16 @@
     - name: copy ipxe
       ansible.builtin.copy:
         src: '/usr/lib/ipxe/ipxe-amd64.efi'
-        dest: "/home/{{ ansible_user }}/proxmox-pxe-boot/tftp/"
+        dest: "/home/{{ ansible_user }}/proxmox-pxe-boot/pxe/tftp/"
         remote_src: true
 
   handlers:
     - name: reload caddy
       ansible.builtin.service:
         name: caddy
+        state: reloaded
+
+    - name: reload dnsmasq
+      ansible.builtin.service:
+        name: dnsmasq
         state: reloaded
