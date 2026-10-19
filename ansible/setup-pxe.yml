@@ -27,6 +27,7 @@
           - git
           - caddy
           - dnsmasq
+          - acl
         state: latest
 
     - name: clone repo
@@ -45,6 +46,8 @@
             root * "/home/{{ ansible_user }}/proxmox-pxe-boot/http/"
             file_server browse
           }
+        group: caddy
+        mode: "0640"
         remote_src: true
       notify: reload caddy
     
@@ -62,8 +65,16 @@
           log-queries
           log-dhcp
           log-facility=/var/log/dnsmasq.log
-        remote_src: true
+        mode: "0640"
       notify: reload dnsmasq
+    
+    - name: dnsmasq acl
+      ansible.posix.acl:
+        path: "/home/{{ ansible_user }}"
+        entity: dnsmasq
+        etype: user
+        permissions: x
+        state: present
     
     - name: flush handlers
       ansible.builtin.meta: flush_handlers
@@ -110,7 +121,6 @@
           filesystem = "zfs"
           zfs.raid = "raid0"
           disk-list = ["sda"]
-        remote_src: true
 
     - name: copy ipxe
       ansible.builtin.copy:
@@ -120,7 +130,7 @@
     
     - name: ipxe conf
       ansible.builtin.copy:
-        dest: "/home/{{ ansible_user }}/proxmox-pxe-boot/tftp"
+        dest: "/home/{{ ansible_user }}/proxmox-pxe-boot/pxe/tftp/proxmox.ipxe"
         content: |
           #!ipxe
           set base http://192.168.0.18:8000
@@ -128,15 +138,14 @@
           initrd ${base}/initrd.img
           initrd ${base}/proxmox-ve_9.2-1-auto-from-http-url.iso proxmox.iso
           boot
-        remote_src: true
 
   handlers:
     - name: reload caddy
       ansible.builtin.service:
         name: caddy
-        state: reloaded
+        state: restarted
 
     - name: reload dnsmasq
       ansible.builtin.service:
         name: dnsmasq
-        state: reloaded
+        state: restarted
