@@ -90,7 +90,7 @@
 
     - name: create answerfile
       ansible.builtin.copy:
-        dest: "/home/{{ ansible_user }}/proxmox-pxe-boot/pxe/http"
+        dest: "/home/{{ ansible_user }}/proxmox-pxe-boot/pxe/http/answer.toml"
         content: |
           [global]
           keyboard = "en-us"
