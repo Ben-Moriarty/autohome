@@ -111,13 +111,14 @@
           - proxmox-auto-install-assistant 
           - prepare-iso 
           - "/home/{{ ansible_user }}/proxmox-pxe-boot/proxmox-ve_9.2-1.iso" 
-          - --fetch-from http 
+          - --fetch-from 
+          - http 
           - --url 
           - "http://192.168.0.18/answer.toml" 
           - --pxe 
           - --output 
-          - "/home/{{ ansible_user }}/proxmox-pxe-boot/http/"
-        creates: "/home/{{ ansible_user }}/proxmox-pxe-boot/http/initrd.img"
+          - "/home/{{ ansible_user }}/proxmox-pxe-boot/pxe/http/"
+        creates: "/home/{{ ansible_user }}/proxmox-pxe-boot/pxe/http/initrd.img"
 
     - name: create answerfile
       ansible.builtin.copy:
