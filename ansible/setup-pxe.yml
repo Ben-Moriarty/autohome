@@ -1,11 +1,11 @@
-- name: Revert PXE vm snapshot
-  hosts: localhost
-  become: true
-  tasks:
-    - name: revert to snapshot
-      ansible.builtin.command:
-        cmd: virsh snapshot-revert debian13 snapshot5 --running
-      changed_when: true
+# - name: Revert PXE vm snapshot
+#   hosts: localhost
+#   become: true
+#   tasks:
+#     - name: revert to snapshot
+#       ansible.builtin.command:
+#         cmd: virsh snapshot-revert debian13 snapshot5 --running
+#       changed_when: true
 
 - name: Setting up PXE server for autohome deploy
   hosts: deb_vm
@@ -63,13 +63,30 @@
             log {
               output file /var/log/caddy/caddy.log
             }
-            root * "/home/{{ ansible_user }}/proxmox-pxe-boot/http/"
+            root * "/home/{{ ansible_user }}/proxmox-pxe-boot/pxe/http/"
             file_server browse
           }
         group: caddy
         mode: "0640"
         remote_src: true
       notify: reload caddy
+
+    - name: caddy acl
+      ansible.posix.acl:
+        path: "/home/{{ ansible_user }}"
+        entity: caddy
+        etype: group
+        permissions: x
+        state: present
+
+    - name: caddy rx acl
+      ansible.posix.acl:
+        path: "/home/{{ ansible_user }}/proxmox-pxe-boot"
+        entity: caddy
+        etype: group
+        permissions: rx
+        recursive: true
+        state: present
     
     - name: setup dnsmasq
       ansible.builtin.copy:
