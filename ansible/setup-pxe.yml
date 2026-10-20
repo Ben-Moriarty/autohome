@@ -9,8 +9,19 @@
 
 - name: Setting up PXE server for autohome deploy
   hosts: deb_vm
+  gather_facts: false
   become: true
   tasks:
+    - name: wait for vm to come up
+      ansible.builtin.wait_for_connection:
+        connect_timeout: 5
+        sleep: 5
+        timeout: 300
+        delay: 10
+    
+    - name: gather facts
+      ansible.builtin.setup:
+
     - name: download proxmox keyring
       ansible.builtin.get_url:
         url: https://enterprise.proxmox.com/debian/proxmox-archive-keyring-trixie.gpg
