@@ -20,4 +20,4 @@ disk-list = ["sda"]
 [first-boot]
 source = "from-url"
 ordering = "fully-up"
-url = "http://192.168.0.18:8000/first-boot.sh"
+url = "http://192.168.0.18:8000/firstboot.sh"
