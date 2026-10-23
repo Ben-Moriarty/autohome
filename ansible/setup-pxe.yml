@@ -1,11 +1,11 @@
-- name: Revert PXE vm snapshot
-  hosts: localhost
-  become: true
-  tasks:
-    - name: revert to snapshot
-      ansible.builtin.command:
-        cmd: virsh snapshot-revert debian13 snapshot5 --running
-      changed_when: true
+# - name: Revert PXE vm snapshot
+#   hosts: localhost
+#   become: true
+#   tasks:
+#     - name: revert to snapshot
+#       ansible.builtin.command:
+#         cmd: virsh snapshot-revert debian13 snapshot5 --running
+#       changed_when: true
 
 - name: Setting up PXE server for autohome deploy
   hosts: deb_vm
