@@ -9,6 +9,14 @@
 
 - name: Setting up PXE server for autohome deploy
   hosts: deb_vm
+  vars:
+    root_password: !vault |
+            $ANSIBLE_VAULT;1.1;AES256
+            39373439373864316261333430633033663663313934613936636532353733616231356362313561
+            3234373762313736316430356363363261313532383464350a393931323731376562373361343930
+            39323030303833323536396537393334623939333530396663653736643936643931366438313335
+            6637346662616566350a346661333665343430663436396235363065386331396666633735346236
+            3461
   gather_facts: false
   become: true
   tasks:
@@ -94,7 +102,7 @@
         content: |
           port=0
           dhcp-range=192.168.0.0,proxy
-          pxe-service=tag:!ipxe,x86-64_EFI,"EFI network boot",ipxe.efi
+          pxe-service=tag:!ipxe,x86-64_EFI,"EFI network boot",ipxe-amd64.efi
           pxe-service=tag:ipxe,x86-64_EFI,"iPXE",proxmox.ipxe
           dhcp-userclass=set:ipxe,iPXE
           enable-tftp
