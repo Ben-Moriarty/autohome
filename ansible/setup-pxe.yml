@@ -155,7 +155,7 @@
           fqdn = "nocheprox.nochemox"
           mailto = "mail@no.invalid"
           timezone = "America/Phoenix"
-          root-password = {{ root_password }}
+          root-password = "{{ root_password }}""
 
           [network]
           source = "from-dhcp"
