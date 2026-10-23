@@ -1,0 +1,23 @@
+[global]
+keyboard = "en-us"
+country = "us"
+fqdn = "nocheprox.nochemox"
+mailto = "mail@no.invalid"
+timezone = "America/Phoenix"
+root-password = "{{ root_password }}"
+
+[network]
+source = "from-dhcp"
+
+[network.interface-name-pinning]
+enabled = true
+
+[disk-setup]
+filesystem = "zfs"
+zfs.raid = "raid0"
+disk-list = ["sda"]
+
+[first-boot]
+source = "from-url"
+ordering = "fully-up"
+url = "http://192.168.0.18:8000/first-boot.sh"

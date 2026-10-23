@@ -145,50 +145,11 @@
           - "/home/{{ ansible_user }}/proxmox-pxe-boot/pxe/http/"
         creates: "/home/{{ ansible_user }}/proxmox-pxe-boot/pxe/http/initrd.img"
 
-    - name: create answerfile
-      ansible.builtin.copy:
-        dest: "/home/{{ ansible_user }}/proxmox-pxe-boot/pxe/http/answer.toml"
-        content: |
-          [global]
-          keyboard = "en-us"
-          country = "us"
-          fqdn = "nocheprox.nochemox"
-          mailto = "mail@no.invalid"
-          timezone = "America/Phoenix"
-          root-password = "{{ root_password }}"
-
-          [network]
-          source = "from-dhcp"
-
-          [network.interface-name-pinning]
-          enabled = true
-
-          [disk-setup]
-          filesystem = "zfs"
-          zfs.raid = "raid0"
-          disk-list = ["sda"]
-
-          [first-boot]
-          source = "from-url"
-          ordering = "fully-up"
-          url = "http://192.168.0.18:8000/first-boot.sh"
-
     - name: copy ipxe
       ansible.builtin.copy:
         src: '/usr/lib/ipxe/ipxe-amd64.efi'
         dest: "/home/{{ ansible_user }}/proxmox-pxe-boot/pxe/tftp/"
         remote_src: true
-    
-    - name: ipxe conf
-      ansible.builtin.copy:
-        dest: "/home/{{ ansible_user }}/proxmox-pxe-boot/pxe/tftp/proxmox.ipxe"
-        content: |
-          #!ipxe
-          set base http://192.168.0.18:8000
-          kernel ${base}/vmlinuz splash=silent proxmox-start-auto-installer
-          initrd ${base}/initrd.img
-          initrd ${base}/proxmox-ve_9.2-1-auto-from-http-url.iso proxmox.iso
-          boot
 
   handlers:
     - name: reload caddy
