@@ -135,9 +135,6 @@
           - --output
           - "/home/{{ ansible_user }}/proxmox-pxe-boot/pxe/http/"
         creates: "/home/{{ ansible_user }}/proxmox-pxe-boot/pxe/http/initrd.img"
-        mode: "0644"
-        owner: root
-        group: root
 
     - name: Copy ipxe
       ansible.builtin.copy:

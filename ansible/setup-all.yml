@@ -1,0 +1,5 @@
+name: Run all setups
+tasks:
+  - ansible.builtin.import_playbook: revert-snapshot.yml
+  - ansible.builtin.import_playbook: setup-pxe.yml
+  - ansible.builtin.import_playbook: setup-packer.yml
