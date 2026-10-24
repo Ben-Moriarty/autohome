@@ -136,6 +136,13 @@
           - "/home/{{ ansible_user }}/proxmox-pxe-boot/pxe/http/"
         creates: "/home/{{ ansible_user }}/proxmox-pxe-boot/pxe/http/initrd.img"
 
+    - name: Render answer file
+      ansible.builtin.template:
+        src: answer.toml.j2
+        dest: "/home/{{ ansible_user }}/proxmox-pxe-boot/pxe/http/answer.toml"
+        mode: "0600"
+        no_log: true
+
     - name: Copy ipxe
       ansible.builtin.copy:
         src: '/usr/lib/ipxe/ipxe-amd64.efi'
