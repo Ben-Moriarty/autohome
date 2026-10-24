@@ -20,22 +20,25 @@
   gather_facts: false
   become: true
   tasks:
-    - name: wait for vm to come up
+    - name: Wait for vm to come up
       ansible.builtin.wait_for_connection:
         connect_timeout: 5
         sleep: 5
         timeout: 300
         delay: 10
-    
-    - name: gather facts
+
+    - name: Gather facts
       ansible.builtin.setup:
 
-    - name: download proxmox keyring
+    - name: Download proxmox keyring
       ansible.builtin.get_url:
         url: https://enterprise.proxmox.com/debian/proxmox-archive-keyring-trixie.gpg
         dest: /usr/share/keyrings/proxmox-archive-keyring.gpg
+        mode: "0644"
+        owner: root
+        group: root
 
-    - name: setup proxmox apt repo
+    - name: Setup proxmox apt repo
       ansible.builtin.copy:
         dest: /etc/apt/sources.list.d/proxmox.sources
         content: |
@@ -44,26 +47,31 @@
           Suites: trixie
           Components: pve-no-subscription
           Signed-By: /usr/share/keyrings/proxmox-archive-keyring.gpg
+        mode: "0644"
+        owner: root
+        group: root
         remote_src: true
 
-    - name: install packages
+    - name: Install packages
       ansible.builtin.apt:
-        update_cache: yes
         name:
-          - proxmox-auto-install-assistant 
+          - proxmox-auto-install-assistant
           - ipxe
           - git
           - caddy
           - dnsmasq
           - acl
-        state: latest
+        state: present
+        update_cache: true
+        cache_valid_time: 3600
 
-    - name: clone repo
+    - name: Clone repo
       ansible.builtin.git:
         repo: 'http://192.168.0.63:3000/noche/autohome.git'
         dest: "/home/{{ ansible_user }}/proxmox-pxe-boot/"
+        version: master
 
-    - name: setup caddy
+    - name: Setup caddy
       ansible.builtin.copy:
         dest: /etc/caddy/Caddyfile
         content: |
@@ -77,9 +85,9 @@
         group: caddy
         mode: "0640"
         remote_src: true
-      notify: reload caddy
+      notify: Reload caddy
 
-    - name: caddy acl
+    - name: Caddy acl
       ansible.posix.acl:
         path: "/home/{{ ansible_user }}"
         entity: caddy
@@ -87,7 +95,7 @@
         permissions: x
         state: present
 
-    - name: caddy rx acl
+    - name: Caddy rx acl
       ansible.posix.acl:
         path: "/home/{{ ansible_user }}/proxmox-pxe-boot"
         entity: caddy
@@ -95,8 +103,8 @@
         permissions: rx
         recursive: true
         state: present
-    
-    - name: setup dnsmasq
+
+    - name: Setup dnsmasq
       ansible.builtin.copy:
         dest: /etc/dnsmasq.conf
         content: |
@@ -111,53 +119,62 @@
           log-dhcp
           log-facility=/var/log/dnsmasq.log
         mode: "0640"
-      notify: reload dnsmasq
-    
-    - name: dnsmasq acl
+      notify: Reload dnsmasq
+
+    - name: Dnsmasq acl
       ansible.posix.acl:
         path: "/home/{{ ansible_user }}"
         entity: dnsmasq
         etype: user
         permissions: x
         state: present
-    
-    - name: flush handlers
+
+    - name: Flush handlers
       ansible.builtin.meta: flush_handlers
-    
-    - name: download iso
+
+    - name: Download iso
       ansible.builtin.get_url:
         url: https://enterprise.proxmox.com/iso/proxmox-ve_9.2-1.iso
         dest: "/home/{{ ansible_user }}/proxmox-pxe-boot/proxmox-ve_9.2-1.iso"
         checksum: sha256:4e88fe416df9b527624a175f24c9aa07c714d3332afb1ee3dbf3879573ef2c6c
-    
-    - name: prep iso
+        mode: "0644"
+        owner: root
+        group: root
+
+    - name: Prep iso
       ansible.builtin.command:
-        argv: 
-          - proxmox-auto-install-assistant 
-          - prepare-iso 
-          - "/home/{{ ansible_user }}/proxmox-pxe-boot/proxmox-ve_9.2-1.iso" 
-          - --fetch-from 
-          - http 
-          - --url 
-          - "http://192.168.0.18:8000/answer.toml" 
-          - --pxe 
-          - --output 
+        argv:
+          - proxmox-auto-install-assistant
+          - prepare-iso
+          - "/home/{{ ansible_user }}/proxmox-pxe-boot/proxmox-ve_9.2-1.iso"
+          - --fetch-from
+          - http
+          - --url
+          - "http://192.168.0.18:8000/answer.toml"
+          - --pxe
+          - --output
           - "/home/{{ ansible_user }}/proxmox-pxe-boot/pxe/http/"
         creates: "/home/{{ ansible_user }}/proxmox-pxe-boot/pxe/http/initrd.img"
+        mode: "0644"
+        owner: root
+        group: root
 
-    - name: copy ipxe
+    - name: Copy ipxe
       ansible.builtin.copy:
         src: '/usr/lib/ipxe/ipxe-amd64.efi'
         dest: "/home/{{ ansible_user }}/proxmox-pxe-boot/pxe/tftp/"
         remote_src: true
+        mode: "0644"
+        owner: root
+        group: root
 
   handlers:
-    - name: reload caddy
+    - name: Reload caddy
       ansible.builtin.service:
         name: caddy
         state: restarted
 
-    - name: reload dnsmasq
+    - name: Reload dnsmasq
       ansible.builtin.service:
         name: dnsmasq
         state: restarted
