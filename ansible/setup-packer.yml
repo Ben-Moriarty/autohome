@@ -1,5 +1,6 @@
 - name: Setting up packer role
   hosts: deb_vm
+  become: true
   tasks:
     - name: Download hashicorp keyring
       ansible.builtin.get_url:
@@ -14,7 +15,7 @@
         repo: >
           deb [arch=amd64 signed-by=/usr/share/keyrings/packer-key.asc]
           https://apt.releases.hashicorp.com
-          {{ ansible_facts['distribution_release'] }} main"
+          {{ ansible_facts['distribution_release'] }} main
 
     - name: Install packages
       ansible.builtin.apt:
