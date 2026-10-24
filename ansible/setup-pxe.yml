@@ -1,12 +1,3 @@
-# - name: Revert PXE vm snapshot
-#   hosts: localhost
-#   become: true
-#   tasks:
-#     - name: revert to snapshot
-#       ansible.builtin.command:
-#         cmd: virsh snapshot-revert debian13 snapshot5 --running
-#       changed_when: true
-
 - name: Setting up PXE server for autohome deploy
   hosts: deb_vm
   vars:
@@ -17,19 +8,8 @@
             39323030303833323536396537393334623939333530396663653736643936643931366438313335
             6637346662616566350a346661333665343430663436396235363065386331396666633735346236
             3461
-  gather_facts: false
   become: true
   tasks:
-    - name: Wait for vm to come up
-      ansible.builtin.wait_for_connection:
-        connect_timeout: 5
-        sleep: 5
-        timeout: 300
-        delay: 10
-
-    - name: Gather facts
-      ansible.builtin.setup:
-
     - name: Download proxmox keyring
       ansible.builtin.get_url:
         url: https://enterprise.proxmox.com/debian/proxmox-archive-keyring-trixie.gpg

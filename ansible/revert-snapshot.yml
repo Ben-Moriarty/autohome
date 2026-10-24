@@ -1,0 +1,15 @@
+- name: Revert vm snapshot
+  hosts: localhost
+  become: true
+  tasks:
+    - name: Revert vm to snapshot
+      ansible.builtin.command:
+        cmd: virsh snapshot-revert debian13 snapshot5 --running
+      changed_when: true
+
+    - name: Wait for vm to come up
+      ansible.builtin.wait_for_connection:
+        connect_timeout: 5
+        sleep: 5
+        timeout: 300
+        delay: 10
