@@ -17,4 +17,4 @@ repos:
     rev: v0.11.0
     hooks:
       - id: shellcheck
-        files: ^/pxe/http/firstboot.sh
+        files: ^pxe/http/firstboot.sh
