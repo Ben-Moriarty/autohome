@@ -1,2 +1,5 @@
+- name: Revert pxe vm
+  import_playbook: playbooks/ops/revert_snapshot.yml
+
 - name: Setup pxe server
   import_playbook: playbooks/pxe_server.yml
