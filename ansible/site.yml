@@ -3,3 +3,6 @@
 
 - name: Setup pxe server
   import_playbook: playbooks/pxe_server.yml
+
+- name: Set proxmox network boot
+  import_playbook: playbooks/ops/set_nextbook.yml
