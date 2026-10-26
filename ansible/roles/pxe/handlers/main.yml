@@ -1,0 +1,9 @@
+- name: Reload caddy
+  ansible.builtin.service:
+    name: caddy
+    state: restarted
+
+- name: Reload dnsmasq
+  ansible.builtin.service:
+    name: dnsmasq
+    state: restarted

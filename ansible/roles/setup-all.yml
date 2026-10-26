@@ -1,8 +1,0 @@
-- name: Revert vm to snapshot
-  ansible.builtin.import_playbook: ../playbooks/revert-snapshot.yml
-
-- name: Setup pxe server
-  ansible.builtin.import_playbook: setup-pxe.yml
-
-- name: Setup packer
-  ansible.builtin.import_playbook: setup-packer.yml
