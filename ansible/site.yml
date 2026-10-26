@@ -1,2 +1,2 @@
 - name: Setup pxe server
-- import_playbook: playbooks/pxe_server.yml
+  import_playbook: playbooks/pxe_server.yml
