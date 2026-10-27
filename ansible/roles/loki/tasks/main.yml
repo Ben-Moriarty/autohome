@@ -1,0 +1,16 @@
+- name: Install python3-debian
+  ansible.builtin.apt:
+    name: python3-debian
+    state: present
+    update_cache: true
+    cache_valid_time: 3600
+
+- name: Add grafana apt repo
+  ansible.builtin.deb822_repository:
+    name: grafana
+    types: [deb]
+    uris: https://apt.grafana.com
+    suites: [stable]
+    components: [main]
+    signed_by: https://apt.grafana.com/gpg.key
+    state: present

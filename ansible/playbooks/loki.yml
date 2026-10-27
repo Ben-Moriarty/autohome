@@ -1,0 +1,5 @@
+- name: Setup loki
+  hosts: deb_vm
+  become: true
+  roles:
+    - loki
