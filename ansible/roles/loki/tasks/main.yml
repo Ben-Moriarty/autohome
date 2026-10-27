@@ -14,3 +14,11 @@
     components: [main]
     signed_by: https://apt.grafana.com/gpg.key
     state: present
+  register: loki_grafana_repo
+
+- name: Install loki
+  ansible.builtin.apt:
+    name: loki
+    state: present
+    update_cache: true
+    cache_valid_time: 3600
