@@ -1,33 +1,24 @@
-- name: Update apt cache
-  ansible.builtin.apt:
-    update_cache: true
-
 - name: Install packages
-  ansible.builtin.package:
+  ansible.builtin.apt:
     name:
       - bc
       - curl
       - expect
       - ca-certificates
+      - python3-debian
     state: present
+    update_cache: true
+    cache_valid_time: 3600
 
-- name: Create gpg key directory
-  ansible.builtin.file:
-    path: /etc/apt/keyrings
-    state: directory
-    mode: "0755"
-
-- name: Download docker gpg key
-  ansible.builtin.get_url:
-    url: https://download.docker.com/linux/ubuntu/gpg
-    dest: /etc/apt/keyrings/docker.asc
-    mode: "0644"
-
-- name: Add docker repo to apt sources
-  ansible.builtin.apt_repository:
-    repo: "deb [arch=amd64 signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/debian {{ ansible_distribution_release }} stable"
+- name: Add docker apt repo
+  ansible.builtin.deb822_repository:
+    name: docker
+    types: [deb]
+    uris: https://download.docker.com/linux/debian
+    suites: ["{{ ansible_distribution_release }}"]
+    components: [stable]
+    signed_by: https://download.docker.com/linux/debian/gpg
     state: present
-    filename: docker
 
 - name: Install docker
   ansible.builtin.package:

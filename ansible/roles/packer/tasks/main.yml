@@ -1,17 +1,20 @@
-- name: Download hashicorp keyring
-  ansible.builtin.get_url:
-    url: https://apt.releases.hashicorp.com/gpg
-    dest: /usr/share/keyrings/packer-key.asc
-    mode: "0644"
-    owner: root
-    group: root
+- name: Install python3-debian
+  ansible.builtin.apt:
+    name:
+      - python3-debian
+    state: present
+    update_cache: true
+    cache_valid_time: 3600
 
-- name: Add hashicorp linux repo
-  ansible.builtin.apt_repository:
-    repo: >
-      deb [arch=amd64 signed-by=/usr/share/keyrings/packer-key.asc]
-      https://apt.releases.hashicorp.com
-      {{ ansible_facts['distribution_release'] }} main
+- name: Add packer apt repo
+  ansible.builtin.deb822_repository:
+    name: packer
+    types: [deb]
+    uris: https://apt.releases.hashicorp.com
+    suites: ["{{ ansible_distribution_release }}"]
+    components: [main]
+    signed_by: https://apt.releases.hashicorp.com/gpg
+    state: present
 
 - name: Install packages
   ansible.builtin.apt:
