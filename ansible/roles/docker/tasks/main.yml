@@ -1,11 +1,15 @@
 - name: Update apt cache
   ansible.builtin.apt:
-    update_cache: yes
+    update_cache: true
 
-# - name: Install packages
-#   ansible.builtin.package:
-#     name:
-#       -
+- name: Install packages
+  ansible.builtin.package:
+    name:
+      - bc
+      - curl
+      - expect
+      - ca-certificates
+    state: present
 
 - name: Create gpg key directory
   ansible.builtin.file:
@@ -21,10 +25,21 @@
 
 - name: Add docker repo to apt sources
   ansible.builtin.apt_repository:
-    repo: "deb [arch={{ ansible_architecture }} signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu {{ ansible_distribution_release }} stable"
-
-- name: Update apt cache
-  ansible.builtin.apt:
-    update_cache: yes
+    repo: "deb [arch=amd64 signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/debian {{ ansible_distribution_release }} stable"
+    state: present
+    filename: docker
 
 - name: Install docker
+  ansible.builtin.package:
+    name:
+      - docker-ce
+      - docker-ce-cli
+      - containerd.io
+      - docker-compose-plugin
+    state: present
+
+- name: Start docker
+  ansible.builtin.service:
+    name: docker
+    state: started
+    enabled: true
