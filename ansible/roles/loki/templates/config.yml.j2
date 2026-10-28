@@ -42,15 +42,15 @@ schema_config:
           period: 24h
 
 pattern_ingester:
-    enabled: true
-    metric_aggregation:
-        loki_address: 127.0.0.1:3100
+  enabled: true
+  metric_aggregation:
+    loki_address: 127.0.0.1:3100
 
 ruler:
-    alertmanager_url: http://localhost:9093
+  alertmanager_url: http://localhost:9093
 
 frontend:
-    encoding: protobuf
+  encoding: protobuf
 
 analytics:
-    reporting_enabled: false
+  reporting_enabled: false
