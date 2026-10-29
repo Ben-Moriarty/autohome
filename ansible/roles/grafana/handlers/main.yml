@@ -1,4 +1,3 @@
 - name: Refresh grafana cache
   ansible.builtin.apt:
     update_cache: true
-  when: grafana_repo is changed
