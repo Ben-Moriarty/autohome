@@ -9,6 +9,7 @@ repos:
     rev: v26.1.1
     hooks:
       - id: ansible-lint
+        args: ["--exclude", "ansible/collections/"]
         entry: env ANSIBLE_CONFIG=ansible/ansible.cfg ansible-lint
         files: ^ansible/
         always_run: false
