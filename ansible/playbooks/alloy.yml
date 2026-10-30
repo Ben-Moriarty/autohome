@@ -1,0 +1,14 @@
+- name: Setup alloy
+  hosts: deb_vm
+  become: true
+
+  tasks:
+    - name: Install alloy
+      ansible.builtin.include_role:
+        name: grafana.grafana.alloy
+      vars:
+        alloy_config: |
+          local.file_match "local_files" {
+            path_targets = [{"__path__" = "/var/log/*.log"}]
+            sync_period = "5s"
+          }
