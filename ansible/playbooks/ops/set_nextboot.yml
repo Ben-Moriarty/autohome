@@ -4,7 +4,7 @@
   tasks:
     - name: Set nextboot to pxe
       ansible.builtin.command:
-        cmd: efibootmgr --bootnext "BOOT000C*"
+        cmd: efibootmgr --bootnext 000C
       changed_when: true
 
     - name: Reboot
