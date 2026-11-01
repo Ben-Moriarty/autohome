@@ -14,10 +14,7 @@
     components: [main]
     signed_by: https://apt.grafana.com/gpg.key
     state: present
-  register: loki_grafana_repo
-
-- name: Run handler
-  ansible.builtin.meta: flush_handlers
+  notify: Refresh grafana cache
 
 - name: Install loki
   ansible.builtin.apt:
