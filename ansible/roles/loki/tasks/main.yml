@@ -16,6 +16,9 @@
     state: present
   register: loki_grafana_repo
 
+- name: Run handler
+  ansible.builtin.meta: flush_handlers
+
 - name: Install loki
   ansible.builtin.apt:
     name: loki
@@ -34,7 +37,15 @@
     group: loki
     create_home: false
 
-- name: Create loki directory
+- name: Create loki conbfig directory
+  ansible.builtin.file:
+    path: /etc/loki
+    state: directory
+    owner: loki
+    group: loki
+    mode: "0750"
+
+- name: Create loki log directory
   ansible.builtin.file:
     path: /var/lib/loki
     state: directory
