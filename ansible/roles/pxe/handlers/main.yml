@@ -1,3 +1,7 @@
+- name: Refresh proxmox cache
+  ansible.builtin.apt:
+    update_cache: true
+
 - name: Reload caddy
   ansible.builtin.service:
     name: caddy

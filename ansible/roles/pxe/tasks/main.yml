@@ -14,6 +14,10 @@
     components: pve-no-subscription
     signed_by: https://enterprise.proxmox.com/debian/proxmox-archive-keyring-trixie.gpg
     state: present
+  notify: Refresh proxmox cache
+
+- name: Run handler
+  ansible.builtin.meta: flush_handlers
 
 - name: Install packages
   ansible.builtin.apt:
