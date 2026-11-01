@@ -53,5 +53,10 @@ ruler:
 frontend:
   encoding: protobuf
 
+compactor:
+  working_directory: /var/lib/loki/compactor
+  retention_enabled: true
+  delete_request_store: filesystem
+
 analytics:
   reporting_enabled: false
