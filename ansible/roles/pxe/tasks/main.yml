@@ -54,6 +54,16 @@
     remote_src: true
   notify: Reload caddy
 
+- name: Create caddy log early for alloy
+  ansible.builtin.file:
+    path: /var/log/caddy/caddy.log
+    state: touch
+    owner: caddy
+    group: caddy
+    mode: "0640"
+    modification_time: preserve
+    access_time: preserve
+
 - name: Caddy acl
   ansible.posix.acl:
     path: "/home/{{ ansible_user }}"
@@ -95,6 +105,16 @@
       log-facility=/var/log/dnsmasq.log
     mode: "0640"
   notify: Reload dnsmasq
+
+- name: Create dnsmasq.log for alloy
+  ansible.builtin.file:
+    path: /var/log/dnsmasq.log
+    state: touch
+    owner: dnsmasq
+    group: adm
+    mode: "0640"
+    modification_time: preserve
+    access_time: preserve
 
 - name: Let alloy read dnsmasq.log
   ansible.posix.acl:
