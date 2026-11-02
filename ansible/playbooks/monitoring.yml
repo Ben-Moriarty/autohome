@@ -1,6 +1,3 @@
-- name: Revert vm to snapshot
-  import_playbook: ops/revert_snapshot.yml
-
 - name: Setup alloy
   import_playbook: alloy.yml
 
