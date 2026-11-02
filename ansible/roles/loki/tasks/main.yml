@@ -34,7 +34,7 @@
     group: loki
     create_home: false
 
-- name: Create loki conbfig directory
+- name: Create loki config directory
   ansible.builtin.file:
     path: /etc/loki
     state: directory

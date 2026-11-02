@@ -23,3 +23,10 @@
               url = "http://localhost:3100/loki/api/v1/push"
             }
           }
+
+    - name: Let alloy read logs
+      ansible.builtin.user:
+        name: alloy
+        groups: adm, systemd-journal
+        append: true
+      notify: Restart alloy

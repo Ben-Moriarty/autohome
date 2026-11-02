@@ -5,7 +5,7 @@
   import_playbook: playbooks/pxe_server.yml
 
 - name: Setup monitoring
-  import_playbook: playbooks/pxe_server.yml
+  import_playbook: playbooks/monitoring.yml
 
 - name: Set proxmox network boot
   import_playbook: playbooks/ops/set_nextboot.yml
