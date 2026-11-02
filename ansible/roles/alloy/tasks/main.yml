@@ -8,7 +8,8 @@
       local.file_match "local_files" {
         path_targets = [
           {"__path__" = "/var/log/dnsmasq.log", "job" = "dnsmasq"},
-          {"__path__" = "/var/log/caddy/caddy.log" "job" = "caddy"},
+          {"__path__" = "/var/log/caddy/caddy.log", "job" = "caddy"},
+          {"__path__" = "/var/log/pxe-capture.log", "job" = "pxe-capture"},
         ]
         sync_period = "5s"
       }
