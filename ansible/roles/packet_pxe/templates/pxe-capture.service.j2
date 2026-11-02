@@ -1,0 +1,14 @@
+[Unit]
+Description=PXE pakcet capture to log
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+ExecStart=/usr/bin/tcpdump -i {{ packet_pxe_iface }} -l -nn -tttt -v "udp port 67 or udp port 68 or udp port 69 or udp port 4011"
+StandardOutput=append:/var/log/pxe-capture.log
+StandardError=append:/var/log/pxe-capture.log
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,27 @@
+- name: Install tcpdump
+  ansible.builtin.apt:
+    name: tcpdump
+    state: present
+
+- name: Pre create capture log
+  ansible.builtin.file:
+    path: /var/log/pxe-capture.log
+    state: touch
+    owner: root
+    group: adm
+    mode: "0640"
+    modification_time: preserve
+    access_time: preserve
+
+- name: Install capture unit
+  ansible.builtin.template:
+    src: pxe-capture.service.j2
+    dest: /etc/systemd/system/pxe-capture.service
+    mode: "0644"
+
+- name: Enable capture
+  ansible.builtin.systemd:
+    name: pxe-capture
+    enabled: true
+    state: started
+    daemon_reload: true
