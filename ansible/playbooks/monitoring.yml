@@ -1,9 +1,7 @@
-- name: Setup alloy
-  import_playbook: alloy.yml
-
 - name: Setup grafana monitoring
   hosts: deb_vm
   become: true
   roles:
     - grafana
     - loki
+    - alloy

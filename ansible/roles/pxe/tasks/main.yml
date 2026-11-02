@@ -71,6 +71,14 @@
     recursive: true
     state: present
 
+- name: Let alloy read caddy logs
+  ansible.posix.acl:
+    path: /var/log/caddy/caddy.log
+    entity: alloy
+    etype: user
+    permissions: r
+    state: present
+
 - name: Setup dnsmasq
   ansible.builtin.copy:
     dest: /etc/dnsmasq.conf
@@ -87,6 +95,14 @@
       log-facility=/var/log/dnsmasq.log
     mode: "0640"
   notify: Reload dnsmasq
+
+- name: Let alloy read dnsmasq.log
+  ansible.posix.acl:
+    path: /var/log/dnsmasq.log
+    entity: alloy
+    etype: user
+    permissions: r
+    state: present
 
 - name: Dnsmasq acl
   ansible.posix.acl:
