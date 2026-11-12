@@ -1,1 +1,2 @@
 sopsage_sops_version: "3.13.3"
+sopsage_private_key_path: "/home/noche/keys.txt"

@@ -6,3 +6,19 @@
 - name: Install sops
   ansible.builtin.apt:
     deb: "https://github.com/getsops/sops/releases/download/v{{ sopsage_sops_version }}/sops_{{ sopsage_sops_version }}_amd64.deb"
+
+- name: Make key dir
+  ansible.builtin.file:
+    path: "/home/{{ ansible_user }}/.config/sops/age"
+    state: directory
+    mode: "0700"
+    owner: deb
+    group: deb
+
+- name: Copy prviate key
+  ansible.builtin.copy:
+    src: "{{ sopsage_private_key_path }}"
+    dest: "/home/{{ ansible_user }}/.config/sops/age/keys.txt"
+    mode: "0600"
+    owner: deb
+    group: deb
