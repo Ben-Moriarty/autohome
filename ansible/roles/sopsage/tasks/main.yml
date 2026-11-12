@@ -1,0 +1,8 @@
+- name: Install age
+  ansible.builtin.package:
+    name: age
+    state: present
+
+- name: Install sops
+  ansible.builtin.apt:
+    deb: "https://github.com/getsops/sops/releases/download/v{{ sopsage_sops_version }}/sops_{{ sopsage_sops_version }}_amd64.deb"

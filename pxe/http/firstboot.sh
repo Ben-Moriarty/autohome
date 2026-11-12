@@ -22,7 +22,7 @@ chown ansible:ansible /home/ansible/.ssh/authorized_keys
 chmod 600 /home/ansible/.ssh/authorized_keys
 
 pveum user add packer@pve
-pveum role add PackerBuilder --privs "VM.Allocate VM.Audit VM.Cosnole VM.PowerMgmt VM.Config.CDROM VM.Config.CPU VM.Config.Cloudinit VM.Config.Disk VM.Config.HWType VM.Config.Memory VM.Config.Network VM.Config.Options Datastore.AllocateSpace Datastore.Audit Sys.Audit SDN.Use"
+pveum role add PackerBuilder --privs "VM.Allocate VM.Audit VM.Console VM.PowerMgmt VM.Config.CDROM VM.Config.CPU VM.Config.Cloudinit VM.Config.Disk VM.Config.HWType VM.Config.Memory VM.Config.Network VM.Config.Options Datastore.AllocateSpace Datastore.Audit Sys.Audit SDN.Use"
 pveum acl modify /vms --users packer@pve --roles PackerBuilder
 
 apt purge proxmox-first-boot
