@@ -15,7 +15,7 @@
     owner: deb
     group: deb
 
-- name: Copy prviate key
+- name: Copy private key
   ansible.builtin.copy:
     src: "{{ sopsage_private_key_path }}"
     dest: "/home/{{ ansible_user }}/.config/sops/age/keys.txt"
