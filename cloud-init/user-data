@@ -1,0 +1,6 @@
+#cloud-config
+users:
+  - name: noche
+    sudo: ALL=(ALL) NOPASSWD:ALL
+    shell: /bin/bash
+    ssh_authorized_keys: ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMzyZSirVh169zAguVf+T1ZTVAlxaYdt2M8KhOG/svDK noche@hosty
