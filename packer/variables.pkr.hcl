@@ -6,10 +6,26 @@ variable "base_image_checksum" {
     type = string
 }
 
-variable "ssh_public_key" {
+variable "packer_ssh_public_key" {
     type = string
 }
 
-variable "ssh_private_key_file" {
+variable "packer_ssh_private_key_file" {
+    type = string
+}
+
+variable "noche_ssh_public_key" {
+    type = string
+}
+
+variable "noche_ssh_private_key_file" {
+    type = string
+}
+
+variable "ansible_ssh_public_key" {
+    type = string
+}
+
+variable "ansible_ssh_private_key_file" {
     type = string
 }

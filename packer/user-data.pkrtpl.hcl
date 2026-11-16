@@ -24,13 +24,19 @@ users:
     sudo: ALL=(ALL) NOPASSWD:ALL
     shell: /bin/bash
     lock_passwd: true
-    ssh_authorized_keys: [ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMzyZSirVh169zAguVf+T1ZTVAlxaYdt2M8KhOG/svDK noche@hosty]
+    ssh_authorized_keys: ["${noche_ssh_public_key}"]
 
   - name: ansible
     sudo: ALL=(ALL) NOPASSWD:ALL
     shell: /bin/bash
     lock_passwd: true
-    ssh_authorized_keys: [ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGKosEMSxkIpi9Cm5tB1MH27K8G8CaFi3uBWezbFSdiC ansible@control]
+    ssh_authorized_keys: ["${ansible_ssh_public_key}"]
+
+  - name: packer
+    sudo: ALL=(ALL) NOPASSWD:ALL
+    shell: /bin/bash
+    lock_passwd: true
+    ssh_authorized_keys: ["${packer_ssh_public_key}"]
 
 power_state:
   mode: poweroff
