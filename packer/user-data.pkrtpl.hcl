@@ -38,8 +38,4 @@ users:
     lock_passwd: true
     ssh_authorized_keys: ["${packer_ssh_public_key}"]
 
-power_state:
-  mode: poweroff
-  condition: true
-
 final_message: "cloud init is totall finished brother after $UPTIME seconds"
