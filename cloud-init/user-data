@@ -1,6 +1,39 @@
 #cloud-config
+hostname: debian-template
+preserve_hostname: false
+timezone: UTC
+manage_etc_hosts: true
+resize_rootfs: true
+locale: en_US.UTF-8
+
+ssh_deletekeys: true
+ssh_genkeytypes: [ed25519]
+ssh_quiet_keygen: true
+ssh_pwauth: false
+disable_root: true
+
+package_update: true
+packages:
+  - qemu-guest-agent
+
+runcmd:
+  - systemctl start qemu-guest-agent
+
 users:
   - name: noche
     sudo: ALL=(ALL) NOPASSWD:ALL
     shell: /bin/bash
-    ssh_authorized_keys: ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMzyZSirVh169zAguVf+T1ZTVAlxaYdt2M8KhOG/svDK noche@hosty
+    lock_passwd: true
+    ssh_authorized_keys: [ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMzyZSirVh169zAguVf+T1ZTVAlxaYdt2M8KhOG/svDK noche@hosty]
+
+  - name: ansible
+    sudo: ALL=(ALL) NOPASSWD:ALL
+    shell: /bin/bash
+    lock_passwd: true
+    ssh_authorized_keys: [ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGKosEMSxkIpi9Cm5tB1MH27K8G8CaFi3uBWezbFSdiC ansible@control]
+
+power_state:
+  mode: poweroff
+  condition: true
+
+final_message: "cloud init is totall finished brother after $UPTIME seconds"
