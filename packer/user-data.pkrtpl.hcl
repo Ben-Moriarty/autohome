@@ -4,7 +4,7 @@ preserve_hostname: false
 timezone: UTC
 manage_etc_hosts: true
 resize_rootfs: true
-locale: en_US.UTF-8
+locale: C.utf8
 
 ssh_deletekeys: true
 ssh_genkeytypes: [ed25519]
@@ -15,9 +15,6 @@ disable_root: true
 package_update: true
 packages:
   - qemu-guest-agent
-
-runcmd:
-  - systemctl start qemu-guest-agent
 
 users:
   - name: noche
