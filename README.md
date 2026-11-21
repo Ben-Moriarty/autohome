@@ -23,3 +23,4 @@ main idea of this project is to fully automate the setup of my homelab from bare
 * finish terraform
 * actually encrypt zkeys.yaml w/ sops
 * stop hardcoding ips everywhere
+* centralize all secrets (api tokens, ssh, passwords) in vault/openbao. sops + age only for the bootstrap secrets, github actions logs in w/ oidc, ssh certs instead of copying keys around

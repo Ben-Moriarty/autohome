@@ -7,3 +7,8 @@ jobs:
     steps:
       - uses: actions/checkout@v7
       - name: Run site playbook
+        working-directory: ansible
+        run: ansible-playbook site.yml
+        env:
+          VAULT_PASS: ${{ secrets.VAULT_PASS }}
+          ANSIBLE_VAULT_PASSWORD_FILE: ./vault_pass.sh
