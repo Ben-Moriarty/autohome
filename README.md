@@ -16,6 +16,7 @@ main idea of this project is to fully automate the setup of my homelab from bare
 * roles to install docker and packer on a box
 * pre-commit w/ ansible-lint, shellcheck and the usual whitespace stuff
 * terraform just started, libvirt provider to pull in the packer image
+* deploy workflow started (`.github/workflows/deploy.yml`), manual run of `site.yml` on a self-hosted runner. same file works for github actions and forgejo actions, vault password comes from a ci secret via `vault_pass.sh`
 
 
 ### upnext?
@@ -24,3 +25,6 @@ main idea of this project is to fully automate the setup of my homelab from bare
 * actually encrypt zkeys.yaml w/ sops
 * stop hardcoding ips everywhere
 * centralize all secrets (api tokens, ssh, passwords) in vault/openbao. sops + age only for the bootstrap secrets, github actions logs in w/ oidc, ssh certs instead of copying keys around
+* one command bootstrap: clone on any machine + vault password -> `./bootstrap.sh` -> whole lab comes up. script pulls pinned tools into `./.tools` (uv for ansible, packer + terraform binaries w/ checksums), no docker or installs needed. ci uses the same script so versions always match
+* runners (github + forgejo) get deployed as part of the lab, not a separate machine. bootstrap builds the lab, then the runners take over for changes after that. later make them ephemeral in containers
+* revert snapshot play should ssh to the libvirt host instead of running virsh on localhost, so the runner can live anywhere (and never on the pxe vm since it reverts itself)
