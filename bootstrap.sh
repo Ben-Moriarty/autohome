@@ -3,4 +3,4 @@ set -euo pipefail
 
 cd ansible
 
-ansible-playbook site.yml --ask-vault-pass
+ansible-playbook site.yml
