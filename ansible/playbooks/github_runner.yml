@@ -1,0 +1,5 @@
+- name: Setup github runner
+  hosts: current
+  become: true
+  roles:
+    - github_runner

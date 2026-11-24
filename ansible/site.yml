@@ -12,3 +12,6 @@
 
 # - name: Set proxmox network boot
 #   import_playbook: playbooks/ops/set_nextboot.yml
+
+- name: Setup github runner
+  import_playbook: playbooks/github_runner.yml

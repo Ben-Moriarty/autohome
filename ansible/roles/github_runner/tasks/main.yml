@@ -1,3 +1,10 @@
 - name: Start github runner container
   community.docker.docker_container:
     name: github-runner
+    image: myoung34/github-runner:2.338.2-debian-trixie
+    state: started
+    restart_policy: unless-stopped
+    env:
+      REPO_URL: "{{ github_runner_repo_url }}"
+      ACCESS_TOKEN: "{{ autohome_runner_token }}"
+  no_log: true
