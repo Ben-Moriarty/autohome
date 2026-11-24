@@ -21,6 +21,9 @@
     state: present
   notify: Refresh docker cache
 
+- name: Flush handlers
+  ansible.builtin.meta: flush_handlers
+
 - name: Install docker
   ansible.builtin.package:
     name:
@@ -28,6 +31,7 @@
       - docker-ce-cli
       - containerd.io
       - docker-compose-plugin
+      - python3-docker
     state: present
 
 - name: Start docker
