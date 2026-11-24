@@ -19,6 +19,7 @@
     components: [stable]
     signed_by: https://download.docker.com/linux/debian/gpg
     state: present
+  notify: Refresh docker cache
 
 - name: Install docker
   ansible.builtin.package:
