@@ -1,5 +1,5 @@
 - name: Setting up PXE server for autohome deploy
-  hosts: deb_vm
+  hosts: current
   become: true
   roles:
     - pxe

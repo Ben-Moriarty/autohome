@@ -1,5 +1,5 @@
 - name: Setting up docker
-  hosts: current_runner
+  hosts: current
   become: true
   roles:
     - docker

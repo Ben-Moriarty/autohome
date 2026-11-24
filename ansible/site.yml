@@ -1,6 +1,9 @@
 - name: Setup docker
   import_playbook: playbooks/docker.yml
 
+- name: Start docker dnsmasq
+  import_playbook: playbooks/pxe_server.yml
+
 # - name: Revert pxe vm
 #   import_playbook: playbooks/ops/revert_snapshot.yml
 
