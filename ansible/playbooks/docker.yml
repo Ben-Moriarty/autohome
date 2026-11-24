@@ -1,5 +1,5 @@
 - name: Setting up docker
-  hosts: deb_vm
+  hosts: current_runner
   become: true
   roles:
     - docker
