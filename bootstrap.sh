@@ -3,4 +3,4 @@ set -euo pipefail
 
 cd ansible
 
-ansible-playbook docker.yml
+ansible-playbook site.yml
