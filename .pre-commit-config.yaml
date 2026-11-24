@@ -20,4 +20,4 @@ repos:
     rev: v0.10.0.1
     hooks:
       - id: shellcheck
-        files: ^pxe/http/firstboot.sh
+        files: ^(pxe/http/firstboot\.sh|ansible/vault_pass\.sh|bootstrap\.sh)$
